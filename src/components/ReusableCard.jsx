@@ -1,8 +1,20 @@
+/**
+ * A reusable card component used to display information for both movies and interpreters.
+ * * It renders an image, a title (with optional highlighting), and a description passed via children.
+ * * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.foto - The URL of the image to display.
+ * @param {string} props.nombre - The name of the movie or interpreter.
+ * @param {boolean} props.esNota10 - Flag to indicate if the item has a top rating (10), triggering specific styling.
+ * @param {string} props.textoDestacado - The text to display if the item is highlighted (e.g., "Featured Movie").
+ * @param {React.ReactNode} props.children - The content to display as the description or biography.
+ * @returns {JSX.Element} The rendered article element representing the card.
+ */
 function ReusableCard(props) {
     const { foto, nombre, esNota10, textoDestacado } = props;
 
     /*
-    Se ha hecho este componente reutilizable tanto para intérpretes como para películas. 
+    This component has been made reusable for both interpreters and movies. 
     */
     return (
 
@@ -10,7 +22,7 @@ function ReusableCard(props) {
             className="article_card"
             aria-label={`Intérprete ${nombre}${esNota10 ? ', destacado' : ''}`}
         >
-            {/* Imagen del intérprete con figcaption oculto para lectores de pantalla */}
+            {/* Interpreter image with hidden figcaption for screen readers */}
             <figure className="w-full aspect-square rounded-lg bg-gray-100 overflow-hidden">
                 <img
                     src={foto}
@@ -27,12 +39,12 @@ function ReusableCard(props) {
                     esNota10 ? "text-red-600" : "text-gray-800"
                     }`}
                 >
-                    {/* Nombre del intérprete */}
+                    {/* Interpreter name */}
                     <strong>{nombre}</strong>
-                    {esNota10 && <em> – {textoDestacado} </em>} {/* De este modod conseguimos que el texto sea independiente para que pueda ser reutilizado */} 
+                    {esNota10 && <em> – {textoDestacado} </em>} {/* In this way we ensure the text is independent so it can be reused */} 
                 </h2>
             </header>
-            {/* Biografía o descripción */}
+            {/* Biography or description */}
             <p className="text-(--body-text-font-size) leading-(--body-text-line-height)">
                 {props.children}
             </p>
@@ -42,5 +54,3 @@ function ReusableCard(props) {
 }
 
 export default ReusableCard;
-
-

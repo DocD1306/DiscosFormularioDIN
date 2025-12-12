@@ -1,3 +1,9 @@
+/**
+ * Component that renders the home page of the application.
+ * * It displays the main welcome title and a brief introductory text.
+ * * @component
+ * @returns {JSX.Element} JSX element containing the welcome message.
+ */
 function HomePage() {
     return (
       <>        

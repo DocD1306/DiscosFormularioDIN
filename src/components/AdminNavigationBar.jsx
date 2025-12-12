@@ -3,28 +3,35 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom"; 
 import MainContent from "./MainContent.jsx";
 
+/**
+ * Navigation bar component for the administration area.
+ * * It includes a responsive mobile menu, accessible navigation links, and a layout wrapper
+ * for the main content rendered via `Outlet`.
+ * * @component
+ * @returns {JSX.Element} The rendered navigation bar and main content wrapper.
+ */
 function AdminNavigationBar() {
-   /* Estado para controlar la apertura/cierre del menú móvil */
+   /* State to control the opening/closing of the mobile menu */
     const [open, setOpen] = useState(false);
 
     return (
         <>
             <header>
-                {/* Añadimos 'aria-label' al nav para identificar esta navegación específica 
-                    si hubiera más de una en la página (ej: footer, sidebar).
+                {/* We add 'aria-label' to the nav to identify this specific navigation 
+                    if there were more than one on the page (e.g., footer, sidebar).
                 */}
                 <nav className="navigation_bar relative" aria-label="Navegación principal">
 
-                    {/* Enlace al inicio.*/}
+                    {/* Link to home.*/}
                     <Link to="/">
                         <h1 className="color_white font-heading-h1">Películas</h1>
                     </Link>
 
-                    {/* Accesibilidad en el Botón:
-                        1. type="button": Previene comportamientos inesperados de submit.
-                        2. aria-label: Describe la acción para usuarios que no ven el icono "☰".
-                        3. aria-expanded: Informa al lector de pantalla si el menú está abierto (true) o cerrado (false).
-                        4. aria-controls: Vincula este botón con el menú que controla mediante su ID.
+                    {/* Button Accessibility:
+                        1. type="button": Prevents unexpected submit behaviors.
+                        2. aria-label: Describes the action for users who cannot see the "☰" icon.
+                        3. aria-expanded: Informs the screen reader if the menu is open (true) or closed (false).
+                        4. aria-controls: Links this button to the menu it controls via its ID.
                     */}
                     <button 
                         type="button"
@@ -37,11 +44,10 @@ function AdminNavigationBar() {
                         <span aria-hidden="true">☰</span>
                     </button>
 
-                    {/* 
-                        Cambio semántico: Usamos <ul> (lista desordenada) en lugar de un <div> genérico.
-                        Esto permite a los lectores de pantalla anunciar "Lista de 3 elementos".
+                    {/* Semantic change: We use <ul> (unordered list) instead of a generic <div>.
+                        This allows screen readers to announce "List of 3 items".
                         
-                        Añadimos id="menu-navegacion" para que coincida con el aria-controls del botón.
+                        We add id="menu-navegacion" to match the aria-controls of the button.
                     */}
                     <ul
                         id="menu-navegacion"
@@ -51,13 +57,13 @@ function AdminNavigationBar() {
                                 : "navigation_links hidden md:flex md:flex-row md:items-center md:gap-10"
                         }
                     >
-                        {/* Cada elemento de navegación debe ir dentro de un <li> */}
+                        {/* Each navigation item must go inside an <li> */}
                        <li>
-                            {/* NavLink para la página de Inicio:
-                                - end: Asegura que la ruta raíz "/" no coincida parcialmente con otras rutas.
-                                - aria-current: Se calcula dinámicamente. Si isActive es true, asigna "page", 
-                                  indicando al lector de pantalla que el link referencia a la página actual.
-                                - onCliclk: Cierra el menú móvil al seleccionar una opción.
+                            {/* NavLink for the Home page:
+                                - end: Ensures that the root route "/" does not partially match other routes.
+                                - aria-current: Calculated dynamically. If isActive is true, assigns "page", 
+                                  indicating to the screen reader that the link references the current page.
+                                - onClick: Closes the mobile menu when an option is selected.
                             */}
                             <NavLink 
                                 to="/" 
@@ -104,11 +110,11 @@ function AdminNavigationBar() {
                 </nav>
             </header>
 
-            {/*Envolvemos el Outlet en MainContent para mantener el diseño consistente en las páginas.*/}
+            {/* We wrap the Outlet in MainContent to maintain consistent layout across pages.*/}
 
             <main id="main-content" role="main" tabIndex="-1" className="main_content">
       
-                {/* El aria-labelledby coincide con el título principal que mostrarán las páginas en children*/}
+                {/* The aria-labelledby matches the main title that will be shown in the children pages */}
                 <section aria-labelledby="main-section-title" className="w-full max-w-7xl text-center">
                 
                     <Outlet />  

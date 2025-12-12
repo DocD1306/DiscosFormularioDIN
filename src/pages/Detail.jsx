@@ -1,20 +1,28 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import movies from "../data/movies-interpreters.js";
 
+/**
+ * Component that renders the detailed view for a specific item (Movie or Actor).
+ * * This component utilizes the `id` parameter from the URL to determine which view to render:
+ * * 1. **Movie View:** If the `id` does not contain a hyphen, it searches for the movie by ID and displays its details (poster, rating, genre) and the cast list.
+ * 2. **Actor View:** If the `id` contains a hyphen (e.g., `movieId-actorIndex`), it splits the string to find the specific actor within a movie and displays their biography and details.
+ * * @component
+ * @returns {JSX.Element} The rendered detailed section for a movie or an article for an actor.
+ */
 function Detail() {
     
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // CASO 1: Película (Si el id no contiene un guion)
+    // CASE 1: Movie (If the id does not contain a hyphen)
     if (!id.includes("-")) {
         const movie = movies.find(m => m.id === Number(id));
         
         return (
             <>
                 {/* aria-labelledby="id": 
-                   Vincula este contenedor con un elemento de texto existente (el h1 con id="movie-title").
-                   El lector anunciará: "Sección: [Nombre de la película]".
+                   Links this container with an existing text element (the h1 with id="movie-title").
+                   The reader will announce: "Section: [Movie Name]".
                 */}
                <section aria-labelledby="movie-title">
 
@@ -85,7 +93,7 @@ function Detail() {
                                                 </figcaption>
                                             </figure>
 
-                                            {/* Nombre visible del intérprete debajo de la tarjeta */}
+                                            {/* Visible name of the interpreter below the card */}
                                             <p className="mt-2 font-semibold">{actor.nombre}</p>
                                         </Link>
                                     </article>
@@ -98,7 +106,7 @@ function Detail() {
         );
     }
 
-    // CASO 2: Actor
+    // CASE 2: Actor
     const [movieId, actorIndex] = id.split("-");
 
     const movie = movies.find(m => m.id === Number(movieId));
@@ -145,7 +153,7 @@ function Detail() {
                     </section>
                 </section>
 
-                {/* aria-hidden en HR: Indica que esta línea es puramente estética y no un cambio de tema semántico */}
+                {/* aria-hidden on HR: Indicates that this line is purely aesthetic and not a semantic topic change */}
                 <hr className="w-full border-t-2 border-primary opacity-20 my-6" aria-hidden="true" />
 
                 <section className="w-full flex flex-col items-center md:items-start bg-[var(--colorsecondary)] p-6 rounded-xl" aria-labelledby="related-movie">

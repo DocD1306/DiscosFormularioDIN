@@ -1,3 +1,9 @@
+/**
+ * Component that renders the administration dashboard welcome page.
+ * * It displays a welcome message and title specific to the admin area.
+ * * @component
+ * @returns {JSX.Element} JSX element containing the admin welcome title and message.
+ */
 function AdminPage() {
     return (
         <>
