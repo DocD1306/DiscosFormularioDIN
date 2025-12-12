@@ -2,14 +2,22 @@ import { useState, } from "react";
 
 export default function DiscForm(){
 
-    const [ error, setError ] = useState("")
+    // const [ error, setError ] = useState("")
+
+    const [ errors, setErrors ] = useState({
+        name: "",
+        group: "",
+        year: "",
+        genre: "",
+        location: "",
+    })
 
     const [ formData, setFormData ] = useState({
             name: "",
             group: "",
             year: "",
             genre: "",
-            localization: "",
+            location: "",
             lent: false
     });
     
@@ -22,45 +30,47 @@ export default function DiscForm(){
         [id]: type === "checkbox" ? checked : value,
         }));
     };
-
+    
     const genreOptions = [
         "Rock",
         "Progressive",
         "Punk",
         "Trash"
     ];
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        
+        setErrors({});
         if(formData.name.length < 5){
-           setError("El nombre debe tener al menos 5 letras");
+           setErrors({ name: "El nombre debe tener al menos 5 letras"});
            return; 
         }
 
         if(formData.group.length < 5){
-           setError("El grupo debe tener al menos 5 letras");
+           setErrors({group: "El grupo debe tener al menos 5 letras"});
            return; 
         }
 
         if(formData.year.length !== 4 ){
-           setError("El año debe tener 4 números");
+           setErrors({year: "El año debe tener 4 números"});
            return; 
         }
 
         if (formData.genre === "") {
-            setError("Debes seleccionar un género de la lista.");
+            setErrors({genre: "Debes seleccionar un género de la lista."});
             return;
         }
 
         const locationRegex = /^ES-\d{3}[A-Z]{2}$/;
 
-        if(!locationRegex.test(formData.localization)){
-            setError("El campo de localización debe seguir el patrón ES-001AA");
+        if(!locationRegex.test(formData.location)){
+            setErrors({location: "El campo de localización debe seguir el patrón ES-001AA"});
             return;
         }
 
-        setError("");
+        // setError("");
+
         
         console.log("Datos válidos. Enviando...", formData);
     };
@@ -91,9 +101,13 @@ export default function DiscForm(){
                             onChange={handleChange}
                             required
                             minlength="5"
-                            aria-invalid={!!error} 
+                            aria-invalid={!!errors.name} 
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                            aria-describedby={errors ? "error-name" : undefined}
                         />
+                        {errors.name && (
+                            <p id="error-name" className="text-red-700 bg-red-100 px-3 py-2 rounded-lg mt-2">{errors.name}</p>
+                        )}
                     </div>
 
                     <div className="mb-4">
@@ -110,9 +124,13 @@ export default function DiscForm(){
                             onChange={handleChange}
                             required
                             minlength="5"
-                            aria-invalid={!!error} 
+                            aria-invalid={!!errors} 
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                            aria-describedby={errors ? "error-group" : undefined}
                         />
+                        {errors.group && (
+                            <p id="error-group" className="text-red-700 bg-red-100 px-3 py-2 rounded-lg mt-2">{errors.group}</p>
+                        )}
                     </div>
 
                     <div className="mb-4">
@@ -128,9 +146,13 @@ export default function DiscForm(){
                             value={formData.year} 
                             onChange={handleChange}
                             minlength="4"
-                            aria-invalid={!!error} 
+                            aria-invalid={!!errors} 
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                            aria-describedby={errors ? "error-year" : undefined}
                         />
+                        {errors.year && (
+                            <p id="error-year" className="text-red-700 bg-red-100 px-3 py-2 rounded-lg mt-2">{errors.year}</p>
+                        )}
                     </div>
 
                     <div className="mb-4">
@@ -146,8 +168,9 @@ export default function DiscForm(){
                             value={formData.genre} 
                             onChange={handleChange}
                             required
-                            aria-invalid={!!error} 
+                            aria-invalid={!!errors} 
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                            aria-describedby={errors ? "error-genre" : undefined}
                         >
                             <option value="" disabled>-- Selecciona un grupo --</option>
                             {genreOptions.map((option) => (
@@ -156,24 +179,31 @@ export default function DiscForm(){
                                 </option>
                             ))}
                         </select>
+                        {errors.genre && (
+                            <p id="error-genre" className="text-red-700 bg-red-100 px-3 py-2 rounded-lg mt-2">{errors.genre}</p>
+                        )}
                     </div>
 
                     <div className="mb-4">
                         <label 
-                            htmlFor="localization" 
+                            htmlFor="location" 
                             className="block text-sm font-medium text-gray-700 mb-1"
                         >
                             Localización:
                         </label>
                         <input
-                            id="localization"
+                            id="location"
                             type="text"
-                            value={formData.localization} 
+                            value={formData.location} 
                             onChange={handleChange}
                             required
-                            aria-invalid={!!error} 
+                            aria-invalid={!!errors} 
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                        aria-describedby={errors ? "error-location" : undefined}
                         />
+                        {errors.location && (
+                            <p id="error-location" className="text-red-700 bg-red-100 px-3 py-2 rounded-lg mt-2">{errors.location}</p>
+                        )}
                     </div>
 
                     <div className="mb-4">
@@ -191,9 +221,9 @@ export default function DiscForm(){
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         {error && <p className="text-red-700 bg-red-100 px-3 py-2 rounded-lg mt-2">{error}</p>}
-                    </div>
+                    </div> */}
                     <div>
                         <button 
                             type="submit"
